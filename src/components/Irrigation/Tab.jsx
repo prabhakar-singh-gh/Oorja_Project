@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Tab = ({ setTab , tab ,data }) => {
-  
+  console.log(tab)
   return (
     <div className="tab flex justify-between lg:space-x-8 md:space-x-6">
       <span
