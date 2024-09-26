@@ -27,6 +27,22 @@ const fetchLocation = async (lat, lon) => {
   }
 };
 
+
+const fetchLocationBySearchTerm = async (searchTerm) => {
+  try {
+    const encodedSearchTerm = encodeURIComponent(searchTerm); // Encode the search term to make it URL-safe
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodedSearchTerm}&format=json&addressdetails=1&limit=1`);
+    
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching location:", error);
+    throw error;
+  }
+};
+
 // New component to handle map clicks
 function MapClickHandler({ onMapClick }) {
   useMapEvents({
@@ -160,7 +176,7 @@ console.log(assetDetails , "ASSET")
   useEffect(() => {
     if (searchQuery.trim()) {
       const timeoutId = setTimeout(async () => {
-        const locations = await fetchLocation(searchQuery);
+        const locations = await fetchLocationBySearchTerm(searchQuery);
         if (locations.length > 0) {
           const { lat, lon } = locations[0];
           setCenter([parseFloat(lat), parseFloat(lon)]);
