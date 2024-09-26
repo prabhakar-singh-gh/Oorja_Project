@@ -4,12 +4,16 @@ import greenLine from "../../assets/greenLine.svg";
 import Tab from "./Tab";
 import Table from "./Table";
 import searchIcon from "../../assets/searchIcon.svg";
+import plusWhite from "../../assets/plusWhite.svg";
+import plusBlack from "../../assets/plusBlack.svg";
 import CustomDropdown from "./CustomDropdown";
 import statesAndDistricts from "./statesAndDistricts";
 import { AssetContext } from "./Context";
 import AddBulkModal from "./AddBulkModal";
 import DataBulkModal from "./DataBulkModal";
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 function IrrigationMainPage() {
   const location = useLocation();
@@ -261,20 +265,7 @@ console.log(updatedAssets); // For debugging or further processing
                     className="bg-custom-black  text-white py-[6px] px-3 lg:py-2 lg:px-4 rounded 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex items-center"
                   >
                     <div className="flex items-center justify-center lg:w-[18px] lg:h-[19px] md:w-[16px] md:h-[17px]">
-                      <svg
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 18 19"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M14.25 9.49996L9 9.49996M9 9.49996L3.75 9.49996M9 9.49996L9 14.75M9 9.49996L9 4.25"
-                          stroke="#FAFAFA"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                        />
-                      </svg>
+                    <img src={plusWhite} className="w-4 h-4"/>
                     </div>
                     <span className="ml-2">Add Assets</span>
                   </button>
@@ -290,48 +281,23 @@ console.log(updatedAssets); // For debugging or further processing
                         <span
                         
                           onClick={openBulkModal}
-                          className=" md:px-2 md:py-1 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex items-center"
+                          className="gap-2 md:px-2 md:py-1 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex items-center"
                          
                         >
-                          <svg
-                            className="w-4 h-4 mr-2"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M12 5V19M5 12H19"
-                              stroke="black"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
+                         <img src={plusBlack} className="w-4 h-4"/>
                           Add in bulk
                         </span>
 
 
-                        <a
-                          href="/addAsset"
-                          className=" md:px-2 md:py-1 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex items-center"
-                          role="menuitem"
-                        >
-                          <svg
-                            className="w-4 h-4 mr-2"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M12 5V19M5 12H19"
-                              stroke="black"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                          Single Asset
-                        </a>
+                        <Link
+  to="/addAsset"
+  className="gap-2 md:px-2 md:py-1 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex items-center"
+  role="menuitem"
+>
+  <img src={plusBlack} className="w-4 h-4" alt="Add Asset"/>
+  Single Asset
+</Link>
+
                       </div>
                     </div>
                   )}
