@@ -218,7 +218,7 @@ console.log(center , "LAt lOg" , Radius);
           </div>
 
           {/* Confirm Button */}
-          <button className="bg-custom-black text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-4 py-2 rounded" onClick={ handleConfirm}>
+          <button className="bg-custom-black text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-6 py-2 rounded" onClick={ handleConfirm}>
             Confirm & Proceed
           </button>
         </div>

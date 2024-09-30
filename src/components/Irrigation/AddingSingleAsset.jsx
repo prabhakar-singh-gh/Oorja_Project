@@ -258,7 +258,7 @@ console.log(assetDetails , "ASSET")
         </div>
 
         {/* Radius Input and Confirm Button */}
-        {!isEdit ? (   <div className="absolute bottom-12 right-16 flex items-center bg-transparent rounded-lg z-50">
+        {!isEdit ? (   <div className="absolute bottom-12 right-16 flex items-center bg-transparent gap-3 rounded-lg z-50">
           <div className="flex items-center mr-4 px-4 py-1 rounded-lg bg-white">
             <span className="mr-2 2xl:text-[13px] md:text-[11px] font-semibold font-inter">Radius</span>
             <input
@@ -273,11 +273,11 @@ console.log(assetDetails , "ASSET")
           </div>
 
           {/* Confirm Button */}
-          <button className="bg-custom-black text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-4 py-2 rounded" onClick={handleConfirm}>
+          <button className="bg-custom-black text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-6 py-2 rounded" onClick={handleConfirm}>
             Confirm & Proceed
           </button>
         </div>):(
-            <div className="absolute bottom-12 right-16 flex items-center bg-transparent rounded-lg z-50">
+            <div className="absolute bottom-12 right-16 flex items-center bg-transparent gap-3 rounded-lg z-50">
             <div className="flex items-center mr-4 px-4 py-1 rounded-lg bg-white">
               <span className="mr-2 2xl:text-[13px] md:text-[11px] font-semibold font-inter">Radius</span>
               <input
@@ -292,7 +292,7 @@ console.log(assetDetails , "ASSET")
             </div>
   
             {/* Confirm Button */}
-            <button className="bg-custom-black text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-4 py-2 rounded" onClick={handleUpdateLatLon}>
+            <button className="bg-custom-black text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-6 py-2 rounded" onClick={handleUpdateLatLon}>
               Confirm & Proceed
             </button>
           </div>
