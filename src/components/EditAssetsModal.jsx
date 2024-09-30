@@ -3,19 +3,21 @@ import searchIcon from "../assets/searchIcon.svg";// Adjust this import based on
 
 const EditAssetsModal = ({ assets, selectedAssets, setShowEditModal, saveEditedAssets , setSelectedAssets}) => {
   const [searchTerm, setSearchTerm] = useState('');
+console.log(selectedAssets , "SELECT");
 
   // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Handle asset selection for checkbox
   const handleAssetSelection = (asset) => {
-    if (selectedAssets.some((item) => item.id === asset.id)) {
-      setSelectedAssets(selectedAssets.filter((item) => item.id !== asset.id));
-    } else {
-      setSelectedAssets([...selectedAssets, asset]);
-    }
+    setSelectedAssets(prevSelected => {
+      if (prevSelected.some(item => item.operator.phone === asset.operator.phone)) {
+        return prevSelected.filter(item => item.operator.phone !== asset.operator.phone);
+      } else {
+        return [...prevSelected, asset];
+      }
+    });
   };
 
   // Function to highlight the search term in text
@@ -35,23 +37,23 @@ const EditAssetsModal = ({ assets, selectedAssets, setShowEditModal, saveEditedA
   };
 
   // Determine if the location matches the search term
-  const locationMatchesSearchTerm = (location) => {
-    return location.toLowerCase().includes(searchTerm.toLowerCase());
-  };
+  // const locationMatchesSearchTerm = (location) => {
+  //   return location.toLowerCase().includes(searchTerm.toLowerCase());
+  // };
 
   // Sort assets: items with a matching location come first
-  const sortedAssets = [...assets].sort((a, b) => {
-    const aMatches = locationMatchesSearchTerm(a.location);
-    const bMatches = locationMatchesSearchTerm(b.location);
-    if (aMatches && !bMatches) return -1;
-    if (!aMatches && bMatches) return 1;
-    return 0;
-  });
+  // const sortedAssets = [...assets].sort((a, b) => {
+  //   const aMatches = locationMatchesSearchTerm(a.location);
+  //   const bMatches = locationMatchesSearchTerm(b.location);
+  //   if (aMatches && !bMatches) return -1;
+  //   if (!aMatches && bMatches) return 1;
+  //   return 0;
+  // });
 
   return (
    
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white rounded-lg shadow-lg 2xl:w-[35%]">
+        <div className="bg-white rounded-lg shadow-lg 2xl:w-[38%] lg:w-[48%] md:w-[55%]">
           <div className="flex justify-end mb-4">
             <button
               onClick={() => setShowEditModal(false)} // Close edit modal
@@ -104,44 +106,53 @@ const EditAssetsModal = ({ assets, selectedAssets, setShowEditModal, saveEditedA
           <div>
             <table className="w-full border-collapse">
               <tbody>
-                {sortedAssets.map((asset) => {
-                  const isSelected = selectedAssets.some((item) => item.id === asset.id);
-                  const locationMatches = locationMatchesSearchTerm(asset.location);
+              {assets.map((asset) => {
+          const isSelected = selectedAssets.some(
+            (item) => item.operator.phone === asset.operator.phone
+          );
 
-                  return (
-                    <tr
-                      key={asset.id}
-                      className={`cursor-pointer ${isSelected ? "bg-gray-100" : ""}`}
-                    >
-                      <td className="p-2 border-t border-b px-10 border-gray-300">
-                        <label className="inline-flex items-center relative">
-                          <input
-                            type="checkbox"
-                            checked={isSelected}
-                            onChange={() => handleAssetSelection(asset)}
-                            className="absolute opacity-0 cursor-pointer"
-                          />
-                          <span
-                            className={`border-2 ${isSelected ? 'border-custom-green' : 'border-gray-300'} flex justify-center items-center 2xl:pr-[1px] 2xl:w-[1.1vw] 2xl:h-[2.3vh] xl:w-[1.3vw] xl:h-[2.3vh] lg:w-[1.3vw] lg:h-[2.2vh] w-[1.5vw] h-[2.1vh] border rounded-sm`}
-                            style={{
-                              boxSizing: 'border-box',
-                            }}
-                          >
-                            <span
-                              className={`2xl:w-[0.7vw] 2xl:h-[1.4vh] xl:w-[0.9vw] xl:h-[1.5vh] lg:w-[0.8vw] lg:h-[1.4vh] w-[0.9vw] h-[1.3vh] rounded-[2px] ${isSelected ? 'bg-custom-green1' : 'bg-transparent'} `}
-                            />
-                          </span>
-                        </label>
-                        <span className={`ml-2 md:px-4 lg:px-8 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] ${locationMatches ? 'text-black' : 'text-gray-400'}`}>
-                          {highlightText(asset.assetId, searchTerm)}
-                        </span>
-                      </td>
-                      <td className={`p-2 border-t border-b border-gray-300 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] ${locationMatches ? 'text-black' : 'text-gray-400'}`}>
-                        {highlightText(asset.location, searchTerm)}
-                      </td>
-                    </tr>
-                  );
-                })}
+          return (
+            <tr
+              key={asset.operator.phone}
+              className={`cursor-pointer ${
+                isSelected ? 'bg-gray-100' : ''
+              }`}
+            >
+              <td className="p-2 2xl:w-[55%] md:w-[58%] border border-t border-b px-10 border-gray-300">
+                <label className="inline-flex items-center relative">
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => handleAssetSelection(asset)}
+                    className="absolute opacity-0 cursor-pointer"
+                  />
+                  <span
+                    className={`border-2 ${
+                      isSelected ? 'border-custom-green' : 'border-gray-300'
+                    } flex justify-center items-center 2xl:pr-[1px] 2xl:w-[1.1vw] 2xl:h-[2.3vh] xl:w-[1.3vw] xl:h-[2.3vh] lg:w-[1.3vw] lg:h-[2.2vh] w-[1.5vw] h-[2.1vh] border rounded-sm`}
+                    style={{
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    <span
+                      className={`2xl:w-[0.7vw] 2xl:h-[1.4vh] xl:w-[0.9vw] xl:h-[1.5vh] lg:w-[0.8vw] lg:h-[1.4vh] w-[0.9vw] h-[1.3vh] rounded-[2px] ${
+                        isSelected ? 'bg-custom-green1' : 'bg-transparent'
+                      }`}
+                    />
+                  </span>
+                </label>
+
+                <span className="ml-2 md:px-4 lg:px-8 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]">
+                  {asset.id}
+                </span>
+              </td>
+
+              <td className="p-2 border-t border-b border-gray-300 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]">
+                {asset.location.district},   {asset.location.state}
+              </td>
+            </tr>
+          );
+        })}
               </tbody>
             </table>
           </div>

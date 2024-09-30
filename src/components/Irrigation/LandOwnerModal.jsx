@@ -1,28 +1,39 @@
-import React , {useState ,useContext}from 'react'
+import React , {useState ,useContext , useEffect}from 'react'
 import saveBtn from '../../assets/saveBtn.svg'
 import deleteIcon from '../../assets/deleteIcon.svg'
 import { AssetContext } from './Context';
 import { useNavigate } from 'react-router-dom'; 
-function LandOwnerModal({  setLandOwnerModal ,  setModalOpen }) {
+function LandOwnerModal({  setLandOwnerModal ,  setModalOpen ,   updateAssetDetails, setTempAsset }) {
 
     const [isMember, setIsMember] = useState(true);
     const [savedEntries, setSavedEntries] = useState([]);
     const [formData, setFormData] = useState({ name: '', phoneNumber: ''  });
     const {landOwners, setLandOwners } = useContext(AssetContext);
     const [owner , setOwner] = useState({name:'' , phoneNumber:'' , startDateTime:'' })
-
+    const [isOwnerValid, setIsOwnerValid] = useState(false);
     console.log(landOwners , "Owner" , owner)
 
     const navigate = useNavigate(); 
-      const handleLandOwnerDetails = (event) => {
-        const { name, value } = event.target;
-        // Update state with new input values
+    const handleLandOwnerDetails = (event) => {
+      const { name, value } = event.target;
+    
+      // Validate phone number if the field is 'phoneNumber'
+      if (name === 'phoneNumber') {
+        // Check if the value is numeric and length is less than or equal to 10
+        if (/^\d*$/.test(value) && value.length <= 10) {
+          setOwner({
+            ...owner,
+            [name]: value,
+          });
+        }
+      } else {
+        // For other fields, update normally
         setOwner({
           ...owner,
           [name]: value,
         });
-      };
-
+      }
+    };
     const handleCheckboxChange = () => {
         setIsMember(!isMember);
       };
@@ -48,8 +59,9 @@ function LandOwnerModal({  setLandOwnerModal ,  setModalOpen }) {
         setSavedEntries(updatedEntries);
       };
 const handleModal = ()=>{
+    setTempAsset({})
     setLandOwnerModal(false)
-    setModalOpen(true)
+   window.history.back()
 }
 const handleSaveModal = ()=>{
     const { name, phoneNumber } = owner; // Destructure to get name and phoneNumber
@@ -78,13 +90,28 @@ const handleSaveModal = ()=>{
     console.log('New Land Owners:', newOwners); // Log the new owners array
     return newOwners;
 });
-
+updateAssetDetails()
 // Delay navigation until after state update
 setLandOwnerModal(false);
 setTimeout(() => {
     navigate('/irrigation');
 }, 0);
 }
+
+
+useEffect(() => {
+  const validateOwnerDetails = () => {
+    // Check if name and phoneNumber are non-empty
+    const isNameEmpty = owner.name === '';
+    const isPhoneNumberValid = owner.phoneNumber && /^\d{10}$/.test(owner.phoneNumber);
+
+    setIsOwnerValid(!isNameEmpty && isPhoneNumberValid);
+  };
+
+  validateOwnerDetails();
+}, [owner]);
+
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-lg 2xl:w-[40vw] md:w-[55vw] xl:w-[42vw] relative">
@@ -102,7 +129,7 @@ setTimeout(() => {
             name="name"
             value={owner.name} // Bind state to the input
             onChange={handleLandOwnerDetails}
-            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-1"
+            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-3"
             placeholder="Name"
           />
         </div>
@@ -114,7 +141,7 @@ setTimeout(() => {
             name="phoneNumber"
             value={owner.phoneNumber} // Bind state to the input
             onChange={handleLandOwnerDetails}
-            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-1"
+            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-3"
             placeholder="Phone No."
           />
         </div>
@@ -163,7 +190,7 @@ setTimeout(() => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-1"
+            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-3"
             placeholder="Name"
           />
            <span className="absolute right-4 top-5 transform -translate-y-1/2">
@@ -174,20 +201,20 @@ setTimeout(() => {
         </div>
 
         {/* Phone Number Input */}
-        <div className="w-[45%] relative">
+        <div className="w-[43%] relative">
           <input
             type="tel"
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleInputChange}
-            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-1"
+            className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-3"
             placeholder="Phone No."
           />
 
           {/* Show tick button when both fields are filled */}
           {formData.name && formData.phoneNumber && (
             <button
-              className="absolute right-[-30px] top-1/2 transform -translate-y-1/2  text-white rounded-full p-1"
+              className="absolute right-[-35px] top-1/2 transform -translate-y-1/2  text-white rounded-full p-1"
               onClick={handleSave}
             >
             <img src={saveBtn} className='w-5 h-5'/>
@@ -212,7 +239,7 @@ setTimeout(() => {
               </div>
 
               {/* Phone Box and Delete Button */}
-              <div className="w-[45%] relative">
+              <div className="w-[43%] relative">
                 <input
                   type="tel"
                   value={entry.phoneNumber}
@@ -222,9 +249,9 @@ setTimeout(() => {
                 {/* Delete button below the tick */}
                 <button
                   onClick={() => handleDelete(index)}
-                  className="absolute right-[-30px] bottom-2  text-white p-1 rounded-full"
+                  className="absolute right-[-42px] bottom-2  text-white p-1 rounded-full"
                 >
-                <img src={deleteIcon} className='w-5 h-5'/>
+                <img src={deleteIcon} className='w-8 h-6'/>
                 </button>
               </div>
             </div>
@@ -239,7 +266,7 @@ setTimeout(() => {
         <p className={`mt-4 md:text-[11px] xl:text-[12px] text-custom-green ${savedEntries.length > 0 ? "visible" : "invisible"} `}>Added Member Successfully</p>
         <button
           disabled={savedEntries.length <= 0} 
-        onClick={handleSaveModal}  className={`bg-btn-color  md:px-5 xl:px-6 py-2 rounded md:text-[11px] xl:text-[12px] mt-4 font-inter ${savedEntries.length > 0 ? 'bg-custom-black text-white' : "text-text-color2 "}  `}>
+        onClick={handleSaveModal}  className={`bg-btn-color  md:px-5 xl:px-6 py-2 rounded md:text-[11px] xl:text-[12px] mt-4 font-inter ${isOwnerValid ? 'bg-custom-black text-white' : "text-text-color2 "}  `}>
         Save
         </button>
         </div>

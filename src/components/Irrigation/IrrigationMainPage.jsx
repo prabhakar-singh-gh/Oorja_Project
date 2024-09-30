@@ -23,7 +23,7 @@ function IrrigationMainPage() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [showAddBulkModal, setShowAddBulkModal] = useState(false);
   const [showDataModal, setShowDataModal] = useState(false);
-  const { assetDetails, landOwners } = useContext(AssetContext);
+  const { assetDetails,   landOwners } = useContext(AssetContext);
   const [uploadedData, setUploadedData] = useState(() => {
     // Retrieve saved data from localStorage when the component mounts
     const savedData = localStorage.getItem('uploadedData');
@@ -178,9 +178,9 @@ parsedSavedAssets.forEach(savedAsset => {
   // Push the saved asset to the updatedAssets array
   updatedAssets.unshift(newSavedAsset);
 });
-
+localStorage.setItem('assetList', JSON.stringify(updatedAssets));
 // Now updatedAssets contains all new assets and saved assets
-console.log(updatedAssets); // For debugging or further processing
+console.log(updatedAssets , "Updates"); // For debugging or further processing
 
 
   const filteredData = updatedAssets.filter((asset) => {
@@ -213,7 +213,7 @@ console.log(updatedAssets); // For debugging or further processing
           <div className=" w-full md:p-4 lg:p-5 xl:p-6 2xl:p-6  bg-gray-50">
             <div className=" w-full full  flex flex-col gap-4">
               <div className="flex justify-between">
-                <div className="flex  2xl:w-[20vw] w-[22vw] p-4 md:p-2 lg:p-3 xl:p-4 2xl:p-3 bg-white rounded-xl">
+                <div className="flex 1920px:w-[15vw]  2xl:w-[18vw] w-[20vw] p-4 md:p-2 lg:p-3 xl:p-4 2xl:p-3 bg-white rounded-xl">
                   <div className="rounded-xl">
                     <img
                       src={greenLine}
@@ -225,24 +225,24 @@ console.log(updatedAssets); // For debugging or further processing
 
                   <div className="relative md:ml-2 xl:ml-3 flex flex-col w-full">
                     <div className=" flex flex-col">
-                      <h2 className="absolute top-[-3px]  2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] font-semibold  ">
+                      <h2 className="absolute top-[-3px]  2xl:text-[13px] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[14px] font-inter text-[#000000]  ">
                         Revenue From
                       </h2>
 
                       <div className="flex justify-between mt-4 xl:mt-6 lg:mt-5">
-                        <div className="flex flex-col">
+                        <div className="flex flex-col mt-1">
                           <span className="md:text-[1.5vw] 2xl:text-[1.2vw] xl:text-[1.3vw] lg:text-[1.4vw] font-inter font-semibold text-custom-green">
                             ₹ 6000
                           </span>
-                          <span className="md:text-[1vw] lg:text-[0.9vw] 2xl:text-[0.8vw]  text-text-color">
+                          <span className="md:text-[1vw] lg:text-[0.9vw] 2xl:text-[0.8vw]  text-text-color mt-1">
                             Members
                           </span>
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col mt-1">
                           <span className="md:text-[1.5vw] 2xl:text-[1.2vw] xl:text-[1.3vw] lg:text-[1.4vw] font-inter font-semibold text-custom-green">
                             ₹ 6000
                           </span>
-                          <span className="md:text-[1vw] lg:text-[0.9vw] 2xl:text-[0.8vw] text-text-color">
+                          <span className="md:text-[1vw] lg:text-[0.9vw] 2xl:text-[0.8vw] text-text-color mt-1">
                             Non-Members
                           </span>
                         </div>
@@ -271,9 +271,9 @@ console.log(updatedAssets); // For debugging or further processing
                   </button>
 
                   {isOpen && (
-                    <div className="absolute md:top-6 md:right-3 lg:right-10 lg:top-8 xl:w-32 xl:top-9 2xl:right-11 mt-2 md:w-24 lg:w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div className="absolute z-10 md:top-6 md:right-2 lg:right-8 lg:top-8 xl:w-36 xl:top-9 2xl:right-10 xl:right-8 mt-2 md:w-26 lg:w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                       <div
-                        className="py-1"
+                        className="py-2 px-2"
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="options-menu"
@@ -281,21 +281,21 @@ console.log(updatedAssets); // For debugging or further processing
                         <span
                         
                           onClick={openBulkModal}
-                          className="gap-2 md:px-2 md:py-1 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex items-center"
+                          className="gap-2 md:px-2 md:py-1 xl:py-2 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex justify-center items-center"
                          
                         >
                          <img src={plusBlack} className="w-4 h-4"/>
-                          Add in bulk
+                          <span style={{fontWeight:'600'}}>Add in bulk</span>
                         </span>
 
 
                         <Link
   to="/addAsset"
-  className="gap-2 md:px-2 md:py-1 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex items-center"
+  className="gap-2 md:px-2 md:py-1  xl:py-2 text-gray-700 hover:bg-gray-100 2xl:text-[0.9vw] md:text-[1.2vw] lg:text-[1.1vw] xl:text-[1vw] flex justify-center items-center"
   role="menuitem"
 >
   <img src={plusBlack} className="w-4 h-4" alt="Add Asset"/>
-  Single Asset
+  <span style={{fontWeight:'600'}}>Single Asset</span>
 </Link>
 
                       </div>
@@ -308,7 +308,7 @@ console.log(updatedAssets); // For debugging or further processing
               <div className="flex  justify-end   relative">
                 <div className="absolute left-0 bottom-0">
                   {" "}
-                  <Tab setTab={setTab} tab={tab} data={filteredData} />{" "}
+                  <Tab setTab={setTab} tab={tab} data={filteredData} allAsset={ updatedAssets} />{" "}
                 </div>
                 <div className="flex items-center space-x-2">
                   {/* Search Icon */}

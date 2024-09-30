@@ -30,6 +30,15 @@ function OorjaTeam() {
   const [selectedMember, setSelectedMember] = useState(null);
   const [isSave , setIsSave] = useState(false)
 
+console.log(selectedMember, "Selected");
+
+
+const [assetList, setAssetList] = useState(() => {
+  const asset = localStorage.getItem('assetList');
+  return asset ? JSON.parse(asset) : []; // Initialize as an array
+});
+   console.log(assetList);
+   
   const [members, setMembers] = useState([
     {
       id: 1,
@@ -148,18 +157,15 @@ function OorjaTeam() {
     setSelectedMember(null);
   };
 
-  const handleAssetSelection = (asset) => {
-    const isAlreadySelected = selectedAssets.find(
-      (item) => item.id === asset.id
-    );
 
-    if (isAlreadySelected) {
-      // Remove asset from selected assets
-      setSelectedAssets(selectedAssets.filter((item) => item.id !== asset.id));
-    } else {
-      // Add new asset to the selected assets
-      setSelectedAssets([...selectedAssets, asset]);
-    }
+  const handleAssetSelection = (asset) => {
+    setSelectedAssets(prevSelected => {
+      if (prevSelected.some(item => item.operator.phone === asset.operator.phone)) {
+        return prevSelected.filter(item => item.operator.phone !== asset.operator.phone);
+      } else {
+        return [...prevSelected, asset];
+      }
+    });
   };
   const saveEditedAssets = () => {
     // Logic for saving the selected assets
@@ -718,7 +724,7 @@ function OorjaTeam() {
                       <div className=" p-2 w-2/3 flex gap-3 items-center">
                         <div className=" md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.8vw] flex gap-3">
                           <span className="bg-bg-btn p-2 rounded-md">
-                            {selectedMember.assetAssigned?.[0]?.assetId}
+                            {selectedMember.assetAssigned?.[0]?.id}
                           </span>{" "}
                           <span className="p-2 bg-bg-btn rounded-full">
                             +{selectedMember.assetAssigned.length}
@@ -884,7 +890,7 @@ function OorjaTeam() {
         {/*Invite Member  Modal */}
         {showModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-2 rounded-lg shadow-lg md:w-[40%] lg:w-[30%] ">
+            <div className="bg-white p-2 rounded-lg shadow-lg md:w-[48%] lg:w-[40%] xl:w-[34%] 2xl:w-[32%]">
               <div className="flex justify-end">
                 <button
                   onClick={() => setShowModal(false)}
@@ -999,8 +1005,8 @@ function OorjaTeam() {
                       selectedAssets.length ? "visible" : "invisible"
                     }`}
                   >
-                    <div className={`text-gray-500 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] flex gap-3`}>
-                      <span className="bg-bg-btn px-2 py-1 rounded-sm">{selectedAssets?.[0]?.assetId}</span> <span className="bg-bg-btn px-1 py-1 rounded-full">+{selectedAssets.length}</span>
+                    <div className={`text-gray-500 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.8vw] flex gap-3`}>
+                      <span className="bg-bg-btn px-2 py-1 rounded-sm">{selectedAssets?.[0]?.id}</span> <span className="bg-bg-btn px-1 py-1 rounded-full">+{selectedAssets.length}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <button
@@ -1012,7 +1018,7 @@ function OorjaTeam() {
                       >
                         <img
                           src={editBtngreen}
-                          className="md:w-[3.8vw] lg:w-[4.28vw] xl:w-[1.3vw]"
+                          className="md:w-[1.8vw] lg:w-[1.28vw] xl:w-[1.3vw]"
                         />
                       </button>
                     </div>
@@ -1041,7 +1047,7 @@ function OorjaTeam() {
        {/* Modal For Assets */}
         {showAssetModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white  rounded-lg shadow-lg 2xl:w-[35%] ">
+            <div className="bg-white  rounded-lg shadow-lg 2xl:w-[38%] md:w-[55%] lg:w-[50%] xl:w-[45%]">
               <div className="flex justify-end ">
                 <button
                   onClick={() => setShowAssetModal(false)} // Close asset modal
@@ -1086,8 +1092,8 @@ function OorjaTeam() {
                 <div className=" 2xl:pr-9 xl:pr-16 flex-1  md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-center " style={{fontWeight:"500"}}>
                   Asset ID
                 </div>
-                <div className=" flex-1 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]" style={{fontWeight:"500"}}>
-                  <span className="xl:px-0 md:px-6 lg:px-11 2xl:px-3">Location</span>
+                <div className=" border flex-1 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]" style={{fontWeight:"500"}}>
+                  <span className="xl:px-7 md:px-10 lg:px-11 2xl:px-4">Location</span>
                 </div>
               </div>
 
@@ -1095,56 +1101,53 @@ function OorjaTeam() {
             
               <table className="w-full border-collapse">
         <tbody>
-          {sortedAssets.map((asset) => {
-            const isSelected = selectedAssets.some(
-              (item) => item.id === asset.id
-            );
-            const locationMatches = locationMatchesSearchTerm(asset.location);
+        {assetList.map((asset) => {
+          const isSelected = selectedAssets.some(
+            (item) => item.operator.phone === asset.operator.phone
+          );
 
-            return (
-              <tr
-                key={asset.id}
-                className={`cursor-pointer ${
-                  isSelected ? 'bg-gray-100' : ''
-                }`}
-              >
-                <td className="p-2 border-t border-b px-10 border-gray-300">
-                  <label className="inline-flex items-center relative">
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => handleAssetSelection(asset)}
-                      className="absolute opacity-0 cursor-pointer"
-                    />
+          return (
+            <tr
+              key={asset.operator.phone}
+              className={`cursor-pointer ${
+                isSelected ? 'bg-gray-100' : ''
+              }`}
+            >
+              <td className="p-2 2xl:w-[55%] md:w-[58%] border border-t border-b px-10 border-gray-300">
+                <label className="inline-flex items-center relative">
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => handleAssetSelection(asset)}
+                    className="absolute opacity-0 cursor-pointer"
+                  />
+                  <span
+                    className={`border-2 ${
+                      isSelected ? 'border-custom-green' : 'border-gray-300'
+                    } flex justify-center items-center 2xl:pr-[1px] 2xl:w-[1.1vw] 2xl:h-[2.3vh] xl:w-[1.3vw] xl:h-[2.3vh] lg:w-[1.3vw] lg:h-[2.2vh] w-[1.5vw] h-[2.1vh] border rounded-sm`}
+                    style={{
+                      boxSizing: 'border-box',
+                    }}
+                  >
                     <span
-                      className={`border-2 ${
-                        isSelected ? 'border-custom-green' : 'border-gray-300'
-                      } flex justify-center items-center 2xl:pr-[1px] 2xl:w-[1.1vw] 2xl:h-[2.3vh] xl:w-[1.3vw] xl:h-[2.3vh] lg:w-[1.3vw] lg:h-[2.2vh] w-[1.5vw] h-[2.1vh] border rounded-sm`}
-                      style={{
-                        boxSizing: 'border-box',
-                      }}
-                    >
-                      <span
-                        className={`2xl:w-[0.7vw] 2xl:h-[1.4vh] xl:w-[0.9vw] xl:h-[1.5vh] lg:w-[0.8vw] lg:h-[1.4vh] w-[0.9vw] h-[1.3vh] rounded-[2px] ${
-                          isSelected ? 'bg-custom-green1' : 'bg-transparent'
-                        }`}
-                      />
-                    </span>
-                  </label>
-
-                  {/* AssetId Highlighting */}
-                  <span className={`ml-2 md:px-4 lg:px-8 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] ${locationMatches ? 'text-black' : 'text-gray-400'}`}>
-                    {highlightText(asset.assetId, searchTerm)}
+                      className={`2xl:w-[0.7vw] 2xl:h-[1.4vh] xl:w-[0.9vw] xl:h-[1.5vh] lg:w-[0.8vw] lg:h-[1.4vh] w-[0.9vw] h-[1.3vh] rounded-[2px] ${
+                        isSelected ? 'bg-custom-green1' : 'bg-transparent'
+                      }`}
+                    />
                   </span>
-                </td>
+                </label>
 
-                <td className={`p-2 border-t border-b border-gray-300 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] ${locationMatches ? 'text-black' : 'text-gray-400'}`}>
-                  {/* Location Highlighting */}
-                  {highlightText(asset.location, searchTerm)}
-                </td>
-              </tr>
-            );
-          })}
+                <span className="ml-2 md:px-4 lg:px-8 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]">
+                  {asset.id}
+                </span>
+              </td>
+
+              <td className="p-2 border-t border-b border-gray-300 md:text-[1.3vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]">
+                {asset.location.district},   {asset.location.state}
+              </td>
+            </tr>
+          );
+        })}
         </tbody>
       </table>
     
@@ -1176,7 +1179,7 @@ function OorjaTeam() {
          {/* Edit Modal Is Open */}
          {showEditModal && (
    <EditAssetsModal
-   assets={assets}
+   assets={assetList}
    selectedAssets={selectedAssets}
    setSelectedAssets={setSelectedAssets}
    setShowEditModal={setShowEditModal}

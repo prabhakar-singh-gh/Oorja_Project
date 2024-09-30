@@ -7,6 +7,7 @@ import L from 'leaflet';
 import SingleAssetModal from './SingleAssetModal';
 import LandOwnerModal from './LandOwnerModal';
 import { AssetContext } from './Context';
+import Subtract from '../../assets/Subtract.png'
 // Custom hook to move the map to a new center
 const MapUpdater = ({ center }) => {
   const map = useMap();
@@ -61,6 +62,7 @@ const AddingSingleAsset = () => {
   const [landOwnerModal, setLandOwnerModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false); // Modal state
   const { assetDetails, setAssetDetails } = useContext(AssetContext);// Asset details as array of objects
+  const [tempAsset, setTempAsset] = useState({});
 
 console.log(assetDetails , "ASSET")
   const handleEdit = (lat, lon ) => {
@@ -71,6 +73,7 @@ console.log(assetDetails , "ASSET")
   };
 
   const handleCloseModal = () => {
+    setTempAsset({}); 
     setModalOpen(false);
   };
 
@@ -80,15 +83,15 @@ console.log(assetDetails , "ASSET")
       const locationData = await fetchLocation(center[0], center[1]);
       let newDistrict = '';
       let newState = '';
-
+  
       if (locationData.address) {
         newDistrict = locationData.address.county || locationData.address.city || '';
         newState = locationData.address.state || '';
       }
-
-      // Add a new asset to the asset details
+  
+      // Initialize new asset object with empty values for name and phoneNumber
       const newAsset = {
-        radius : radius , 
+        radius: radius,
         assetId: '',
         rate: '',
         lat: center[0],
@@ -101,30 +104,29 @@ console.log(assetDetails , "ASSET")
         tahsil: '',
         soilTest: true,
         seedOrder: false,
-        name: '',
-        phoneNumber: '',
+        name: '', // Default empty value
+        phoneNumber: '', // Default empty value
       };
-
-      setAssetDetails((prevAssets) => {
-        if (isEdit) {
-          return prevAssets.map((asset, index) => 
-            asset.lat === newAsset.lat ? { ...asset, ...newAsset } : asset
-          );
-        }
-        return [...prevAssets, newAsset];
-      });
-
+  
+      setTempAsset(newAsset); // Temporarily hold the new asset
       setModalOpen(true); // Open the modal after confirmation
     } catch (error) {
       console.error("Error fetching location details:", error);
     }
   };
-  const updateAssetDetails = (updatedAsset) => {
-    setAssetDetails((prevAssets) =>
-      prevAssets.map((asset) =>
-        asset.lat === updatedAsset.lat ? updatedAsset : asset // Assuming each asset has a unique id
-      )
-    );
+
+  const updateAssetDetails = () => {
+    setAssetDetails((prevAssets) => {
+      if (isEdit) {
+        // Update an existing asset in the list
+        return prevAssets.map((asset) =>
+          asset.lat === tempAsset.lat ? { ...asset, ...tempAsset } : asset
+        );
+      } else {
+        // Add new asset to the list
+        return [...prevAssets, tempAsset];
+      }
+    });
   };
   const [latestAsset, setLatestAsset] = useState({});
 
@@ -133,45 +135,37 @@ console.log(assetDetails , "ASSET")
     setLatestAsset(assetDetails[assetDetails.length - 1] || {});
   }, [assetDetails , radius]);
 
-  const handleUpdateLatLon =async () => {
-   
-        try {
-            // Fetch updated location details (state and district) using the new lat/lon
-            const locationData = await fetchLocation(center[0], center[1]);
-      
-            let newDistrict = '';
-            let newState = '';
-      
-            if (locationData.address) {
-              newDistrict = locationData.address.county || locationData.address.city || '';
-              newState = locationData.address.state || '';
-            }
-      
-            // Update the asset details with the new lat/lon and location info
-            setAssetDetails((prevAssets) => {
-              const updatedAssets = prevAssets.map((asset, index) => {
-                if (index === prevAssets.length - 1) {
-                  // Update only the latest asset
-                  return {
-                    ...asset,
-                    lat: center[0],
-                    lon: center[1],
-                    state: newState,
-                    district: newDistrict,
-                    radius : radius
-                  };
-                }
-                return asset; // Keep the rest of the assets unchanged
-              });
-      
-              return updatedAssets; // Return the updated list
-            });
-        setModalOpen(true)
-            setIsEdit(false); // Exit edit mode
-          } catch (error) {
-            console.error('Error fetching location details:', error);
-          }
+  const handleUpdateLatLon = async () => {
+    try {
+      // Fetch updated location details (state and district) using the new lat/lon
+      const locationData = await fetchLocation(center[0], center[1]);
+  
+      let newDistrict = '';
+      let newState = '';
+  
+      if (locationData.address) {
+        newDistrict = locationData.address.county || locationData.address.city || '';
+        newState = locationData.address.state || '';
+      }
+  
+      // Update the tempAsset with the new lat/lon and location info
+      setTempAsset((prevTemp) => ({
+        ...prevTemp, // Spread previous tempAsset properties
+        lat: center[0],
+        lon: center[1],
+        state: newState,
+        district: newDistrict,
+        radius: radius, // Assuming `radius` is available in the scope
+      }));
+  
+      // Open the modal after updating tempAsset
+      setModalOpen(true);
+      setIsEdit(false); // Exit edit mode
+    } catch (error) {
+      console.error('Error fetching location details:', error);
+    }
   };
+  
   // Debounce search: triggers 1 second after the user stops typing
   useEffect(() => {
     if (searchQuery.trim()) {
@@ -192,9 +186,9 @@ console.log(assetDetails , "ASSET")
   };
 
   const greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    iconUrl: Subtract,
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
+    iconSize: [32, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
@@ -205,26 +199,28 @@ console.log(assetDetails , "ASSET")
     const { lat, lng } = event.latlng;
     setCenter([lat, lng]);
   };
+  
+
   const onInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === 'pincode' || name === "rate" ) {
-        // For pincode, allow only numbers and limit to 6 digits
-        if (/^\d*$/.test(value) && value.length <= 6) {
-          setLatestAsset((prevDetails) => ({
-            ...prevDetails,
-            [name]: value,
-          }));
-        }
-      } else {
-        // For other fields (like village), allow any text
-       setLatestAsset((prevDetails) => ({
-          ...prevDetails,
+  
+    // Handle validation for 'pincode' and 'rate'
+    if (name === 'pincode' || name === 'rate') {
+      if (/^\d*$/.test(value) && value.length <= 6) {
+        setTempAsset((prevTemp) => ({
+          ...prevTemp,
           [name]: value,
         }));
       }
-
-    
+    } else {
+      // Update other text fields without restrictions
+      setTempAsset((prevTemp) => ({
+        ...prevTemp,
+        [name]: value,
+      }));
+    }
   };
+  
   return (
     <div className="h-screen flex flex-col relative">
       {/* Back Button */}
@@ -306,7 +302,7 @@ console.log(assetDetails , "ASSET")
              <SingleAssetModal
              setModalOpen = { setModalOpen}
              onClosed={handleCloseModal}
-             assetDetails={latestAsset}
+             assetDetails={tempAsset}
              isEdit={isEdit}
              setAssetDetails={setLatestAsset}
              onEdit={handleEdit}
@@ -314,6 +310,7 @@ console.log(assetDetails , "ASSET")
              updateAssetDetails = {updateAssetDetails}
              setIsEdit= {setIsEdit}
              setLandOwnerModal = {setLandOwnerModal}
+             setTempAsset= {setTempAsset}
            />
          )
          }
@@ -322,12 +319,11 @@ console.log(assetDetails , "ASSET")
              <LandOwnerModal
               setLandOwnerModal = {setLandOwnerModal}
               setModalOpen = { setModalOpen}
+              setTempAsset= {setTempAsset}
+              updateAssetDetails = {updateAssetDetails}
            />
          )
-         }
-
-
-       
+         } 
       </div>
     </div>
   );

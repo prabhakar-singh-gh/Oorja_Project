@@ -93,9 +93,9 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8 py-12">
       <div className="bg-white p-8 rounded-md shadow-lg w-full ">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-6">
           <h2 className=" font-semibold md:text-[1.8vw] lg:text-[1.5vw] xl:text-[1.3vw] 2xl:text-[1.3vw]">Bulk Add Asset</h2>
-          <button onClick={() => setShowDataModal(false)}>  <img src={deleteIcon} className='w-5 h-5'/></button>
+          <button onClick={() => setShowDataModal(false)}>  <img src={deleteIcon} className='2xl:w-[23px] 2xl:h-[22px] xl:w-[22px] xl:h-[21px] lg:w-[18px] lg:h-[17px] md:w-[16px] md:h-[15px]'/></button>
         </div>
 
         {/* Display the uploaded data */}
@@ -106,14 +106,14 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
                 <th className="p-2  w-[2%]  border-gray-300">
                    
                 </th>
-                <th className="px-6 py-3 font-inter font-normal md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-left">Asset ID</th>
-                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-left font-inter font-normal">Rate</th>
+                <th className="px-6 py-3 font-inter font-normal md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] border2xl:text-[0.9vw] 2xl:w-[] border text-left">Asset ID</th>
+                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] xl:w-[8%] border text-left font-inter font-normal ">Rate in ₹/m³</th>
                 <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-center font-inter font-normal">Location</th>
-                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] font-inter font-normal">Radius <span className='lg:text-[10px] md:text-[8px] text-text-color'>in meters</span></th>
+                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] xl:w-[9%] 2xl:w-[10%] font-inter font-normal">Radius <span className='lg:text-[10px] md:text-[8px] text-text-color'>in meters</span></th>
                 <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] font-inter font-normal">Soil Testing</th>
-                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] font-inter font-normal">Seed Service</th>
-                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] xl:w-[9%] font-inter font-normal">Operator</th>
-                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] xl:w-[9%] font-inter font-normal">Landowner</th>
+                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] border 2xl:w-[9%] font-inter font-normal">Seed Service</th>
+                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]  font-inter font-normal">Operator</th>
+                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] font-inter font-normal">Landowner</th>
               </tr>
             </thead>
             <tr>
@@ -121,7 +121,7 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
   </tr>
             <tbody>
               {datas.map((item, index) => (  // Adjusted to iterate until the second last index
-                <tr key={index}>
+                <tr key={index} style={{fontWeight:"500"}}>
                   <td className="p-2 py-1 border-t border-b border-gray-300">
                   <div
                       className={`mr-2 p-[1px] py-[1px] w-4 md:w-3 xl:h-[1.5vh] xl:w-3 2xl:h-[2vh] 2xl:w-[0.9vw] border-2 rounded-[3px] flex justify-center items-center cursor-pointer ${
@@ -132,16 +132,16 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
                       onClick={() => handleCheckboxChange(index)} // Toggle checkbox state on click
                     >
                       <div
-                        className={`2xl:w-[0.6vw] 2xl:h-[1.3vh] xl:w-[0.5vw] xl:h-[0.9vh] lg:w-[0.8vw] lg:h-[1.4vh] w-[0.9vw] h-[1.3vh] ${
+                        className={`2xl:w-[0.5vw] 2xl:h-[1.3vh] xl:w-[0.4vw] xl:h-[0.8vh] lg:w-[0.8vw] lg:h-[1.4vh] w-[0.9vw] h-[1.3vh] ${
                           checkedItems[index] ? 'bg-custom-green1' : 'bg-white'
                         } rounded-[2px]`}
                       ></div>
                     </div>
                   </td>
                   <td className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]">{item.assetId}</td>
-                  <td className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]">{item.rate}</td>
+                  <td className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] px-8">{item.rate}</td>
                   <td 
-  className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-center" 
+  className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-center cursor-pointer" 
   onClick={() => {
     const radiusValue = Number(item['radius']); // Convert radius to a number
     if (!isNaN(radiusValue)) {
@@ -156,7 +156,7 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
     <img src={locationPoint} className='w-4 h-4' />
     <span className="flex gap-2 justify-center">
       {item.location.split(', ').map((loc, idx) => (
-        <span key={idx} className="text-text-color">
+        <span key={idx} className="">
           {parseFloat(loc).toFixed(3)} {/* Formatting to 3 decimal places */}
         </span>
       ))}
@@ -168,7 +168,7 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
                   <td className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]  text-center">{item['radius']}</td>
                   <td className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]  text-center">{item['soil testing']}</td>
                   <td className="p-2 border-t border-b border-gray-300 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-center">{item['seed service']}</td>
-                  <td className="p-2 border-t border-b border-gray-300 md:text-[1.1vw] lg:text-[1vw] xl:text-[0.9vw] 2xl:text-[0.8vw]  text-center">
+                  <td className="p-2 border-t border-b border-gray-300 md:text-[1.1vw] lg:text-[1vw] xl:text-[0.9vw] 2xl:text-[0.8vw] w-[8%]  text-center">
                     {/* Split the operator into name and number */}
                     {item.operator.split(', ').map((part, idx) => (
                       <div key={idx} className={`${idx === 1 ? 'text-text-color xl:text-[0.8vw] md:text-[9px]' : ' border rounded-[5px]'}`}>
@@ -190,9 +190,9 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
           </table>
         </div>
         <div className='flex justify-end mt-8'>
-        <div className='flex gap-3 '>
-            <button className='border border-custom-black xl:py-[7px] md:py-[6px] xl:px-6 md:px-4 xlrounded-[6px] md:rounded-[4px] md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]' onClick={handleSave} >Save List</button>
-            <button className='border  border-custom-black bg-custom-black text-white xl:py-[7px] md:py-[6px] xl:px-6 md:px-4 xlrounded-[6px] md:rounded-[4px] md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] ' onClick={ handleSaveRemaining}>Add Selected Asset</button>
+        <div className='flex xl:gap-6  md:gap-4'>
+            <button className='border border-custom-black xl:py-[8px] md:py-[6px] xl:px-6 md:px-4 xlrounded-[6px] md:rounded-[4px] md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]' onClick={handleSave} >Save List</button>
+            <button className='border  border-custom-black bg-custom-black text-white xl:py-[8px] md:py-[6px] xl:px-6 md:px-4 xlrounded-[6px] md:rounded-[4px] md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] ' onClick={ handleSaveRemaining}>Add Selected Asset</button>
         </div>
       </div>
       </div>

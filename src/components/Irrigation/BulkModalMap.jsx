@@ -6,7 +6,7 @@ import backArrow from '../../assets/backArrow.svg'; // Update the path as necess
 import searchIcon from '../../assets/searchIcon.svg'; // Update the path as necessary
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import Subtract from '../../assets/Subtract.png'
 const MapUpdater = ({ center }) => {
   const map = useMap();
   map.setView(center, map.getZoom());
@@ -52,14 +52,7 @@ console.log(center , "LAt lOg" , Radius);
   }, [location])
 
 
-  const greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-  });
+
 
 
   const handleMapClick = (e) => {
@@ -154,6 +147,19 @@ console.log(center , "LAt lOg" , Radius);
   useEffect(() => {
     handleUpdateLatLon(); // Call the function when the component mounts or when `center` changes
   }, [center]);
+  const greenIcon = new L.Icon({
+    iconUrl: Subtract,
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [32, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+
+
+
+
+
 
   return (
     <div className="h-screen flex flex-col relative">
@@ -197,7 +203,7 @@ console.log(center , "LAt lOg" , Radius);
         </div>
 
         {/* Radius Input and Confirm Button */}
-        <div className="absolute bottom-12 right-16 flex items-center bg-transparent rounded-lg z-50">
+        <div className="absolute bottom-12 right-16 flex items-center gap-3 bg-transparent rounded-lg z-50">
           <div className="flex items-center mr-4 px-4 py-1 rounded-lg bg-white">
             <span className="mr-2 2xl:text-[13px] md:text-[11px] font-semibold font-inter">Radius</span>
             <input
@@ -206,7 +212,7 @@ console.log(center , "LAt lOg" , Radius);
               max="1000"
               value={Radius || ''}
               onChange={handleRadiusChange}
-              className="border p-1 w-20 text-center 2xl:text-[16px] md:text-[15px]"
+              className="border p-1 w-20 text-center 2xl:text-[16px] md:text-[15px] rounded-lg"
             />
             <span className='2xl:text-[13px] md:text-[11px] ml-2 font-semibold font-inter'>Meters</span>
           </div>

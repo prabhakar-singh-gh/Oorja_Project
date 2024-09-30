@@ -77,7 +77,10 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		screens:{
+			'1920px' : '1920px',
+		}
   	},
   	fontFamily: {
   		inter: ['Inter', 'sans-serif']

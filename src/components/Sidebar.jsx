@@ -38,8 +38,8 @@ const Sidebar = () => {
             <img src={OorjaNameSvg} alt="Oorja Name" className=" lg:w-[139px] h-auto" />
           </div>
           <div>
-            <ul className="mt-4 lg:mt-14 w-full flex flex-col items-center justify-center ">
-              <li className=" ">
+            <ul className="mt-4  lg:mt-14 w-full flex flex-col items-center justify-center ">
+              <li className="">
               <Link to="/" onClick={() => handleLinkClick('home')}>
                   <img
                     src={activeLink === 'home' ? homesvg : Homelink}
@@ -48,13 +48,13 @@ const Sidebar = () => {
                   />
                 </Link>
               </li>
-              <li className="flex justify-center items-center w-full">
+              <li className="flex justify-center items-center w-full  mt-[4px]">
                 <Link to="/irrigation"  onClick={() => handleLinkClick('irrigation')}>
                 <img   src={activeLink === 'irrigation' ? irrigationActive : irrigation}
                     alt="homepage"
                     className="w-[15vw]"/></Link>
               </li>
-              <li className="flex justify-center w-full">
+              <li className="flex justify-center w-full  mt-[4px]">
               <Link to="/contact" onClick={() => handleLinkClick('digitalAdvidor')}>
                   <img
                     src={activeLink === 'digitalAdvidor' ? digitalAdvidorActive : digitalAdvidor}
@@ -63,19 +63,19 @@ const Sidebar = () => {
                   />
                 </Link>
               </li>
-              <li className="flex justify-center w-full">
+              <li className="flex justify-center w-full   mt-[4px]">
                 <Link to="/conten"><img src={seeOrder} alt="seeOrder" className="w-[15vw]"  /></Link>
               </li>
-              <li className="flex justify-center w-full">
+              <li className="flex justify-center w-full   mt-[4px]">
                 <Link to="/contac"><img src={soliTest} alt="soilTesting" className="w-[15vw]"  /></Link>
               </li>
-              <li className="flex justify-center w-full">
+              <li className="flex justify-center w-full   mt-[4px]">
                 <Link to="/contac"><img src={farmers} alt="farmers" className="w-[15vw]" /></Link>
               </li>
-              <li className="flex justify-center w-full">
+              <li className="flex justify-center w-full  mt-[4px]">
                 <Link to="/contac"><img src={transactions} alt="transactions" className="w-[15vw]"  /></Link>
               </li>
-              <li className="flex justify-center w-full">
+              <li className="flex justify-center w-full   mt-[4px]">
               <Link to="/oorja-team" onClick={() => handleLinkClick('oorjaTeam')}>
                   <img
                     src={activeLink === 'oorjaTeam' ? oorjaTeamActive : oorjaTeam}

@@ -75,8 +75,8 @@ const AddBulkModal = ({ setShowAddBulkModal, setShowDataModal, handleUploadedDat
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-8 rounded-[16px] shadow-lg ">
-        <div className="flex justify-between gap-[8vw] items-center md:mb-6 xl:mb-8">
+      <div className=" p-8 rounded-[16px] shadow-lg  bg-white 2xl:w-[34%] md:w-[55%] lg:w-[45%] xl:w-[36%]">
+        <div className="flex justify-between gap-[8vw] items-center md:mb-6 xl:mb-8 ">
           <span className="md:text-[15px] xl:text-[18px] font-medium">Bulk Add Asset</span>
           <button className="border border-text-color flex justify-center items-center px-2 py-[5px] font-inter rounded-sm md:text-[11px] xl:text-[13px] "> 
             <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,7 +85,7 @@ const AddBulkModal = ({ setShowAddBulkModal, setShowDataModal, handleUploadedDat
             Download Sample
           </button>
         </div>
-        <div className="p-5 rounded-[16px] flex flex-col items-center text-center mb-4 bg-background-color1 custom-border"
+        <div className="p-5 flex flex-col items-center text-center mb-4 bg-background-color1 custom-border"
              onDragEnter={handleDragEnter}
              onDragLeave={handleDragLeave}
              onDragOver={(e) => e.preventDefault()} // Prevent default behavior
@@ -93,15 +93,15 @@ const AddBulkModal = ({ setShowAddBulkModal, setShowDataModal, handleUploadedDat
              // Change border color on drag
         >
           {/* First Line */}
-          <p className="mb-4 flex gap-2">
-            <img src={csvSymbol} alt="csvFile" className='md:w-4 md:h-4 xl:w-5 xl:h-5' />
-            <span className='font inter text-custom-gray3 md:text-[11px] xl:text-[14px] '>Upload CSV or Excel file to bulk upload</span>
+          <p className="mb-5 flex gap-2 justify-center items-start mt-2">
+            <img src={csvSymbol} alt="csvFile" className='md:w-4 md:h-4 xl:w-4 xl:h-4 2xl:mt-[2px] xl:mt-[3px] lg:mt-[1px] md:mt-[1px]' />
+            <span className='font inter text-custom-gray3 md:text-[11px] xl:text-[14px] 2xl:text-[13px] '>Upload CSV or Excel file to bulk upload</span>
           </p>
 
           {/* Second Line */}
           <p className="mb-4 flex gap-2">
-            <img src={cursor} alt="csvFile" className='md:w-4 md:h-4 xl:w-5 xl:h-5' />
-            <span className='font inter text-custom-gray3 md:text-[11px] xl:text-[14px] '>Drag and Drop here</span>
+            <img src={cursor} alt="csvFile" className='md:w-4 md:h-4 xl:w-4 xl:h-4 2xl:mt-[2px] xl:mt-[3px] lg:mt-[1px] md:mt-[1px]' />
+            <span className='font inter text-custom-gray3 md:text-[11px] xl:text-[13px] 2xl:text-[13px]'>Drag and Drop here</span>
           </p>
 
           {/* Third Line */}
@@ -109,7 +109,7 @@ const AddBulkModal = ({ setShowAddBulkModal, setShowDataModal, handleUploadedDat
 
           {/* Fourth Line (Button) */}
           <button 
-            className="border border-text-color flex justify-center items-center py-[5px] px-3 rounded"
+            className="border border-text-color flex justify-center items-center py-[5px] px-3 rounded mb-2"
             onClick={() => document.getElementById('fileInput').click()}
           >
             <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -25,13 +25,13 @@ const Table = ({ data, tab, selectedState, selectedDistrict }) => {
           <th className="py-4 w-[34%] font-normal text-left px-8">Asset ID</th>
           <th className="py-1 px-2 text-left w-[27%] font-normal">Location</th>
           <th className="py-1 px-2 text-left w-[17%] font-normal">Operator</th>
-          <th className="py-1 px-4 text-left w-[14%] font-normal">
+          <th className="py-1  w-[14%] font-normal ">
             {tab === 'active' ? (
-              <div><span>Started On</span></div>
+              <div className=' text-left pl-2'><span>Started On</span></div>
             ) : tab === 'idle' ? (
-              <div><span>Upcoming Session</span></div>
+              <div className='  text-left pl-[6px]'><span>Upcoming Session</span></div>
             ) : (
-              <span className="py-1 pl-11 text-right w-[16%] font-normal">Status</span>
+              <span className="py-1 pr-3  w-[16%] font-normal text-center ">Status</span>
             )}
           </th>
           <th className="py-1 px-2 text-left font-normal w-[10%]"></th>
@@ -88,14 +88,14 @@ const TableRow = ({ item, index, tab, clickedIndex, handleImageClick }) => (
       ) : tab === 'idle' ? (
         <div className="mr-9 text-text-color">{item.startDateTime || 'N/A'}</div>
       ) : (
-        <span className={`inline-block py-1 px-2 rounded-3xl font-inter text-center ml-10 ${item.status === "Inactive" ? "bg-red-50 text-text-colorRed" : item.status === "Active" ? "bg-green-50 text-custom-green" : "bg-custom-gray1 text-custom-gray3"}`}>
+        <span className={`inline-block py-1 px-2  2xl:w-[70px] md:w-[42px] lg:w-[52px] xl:w-[62px] xl:rounded-3xl rounded-2xl font-inter text-center ml-10 ${item.status === "Inactive" ? "bg-red-50 text-text-colorRed" : item.status === "Active" ? "bg-green-50 text-custom-green" : "bg-custom-gray1 text-custom-gray3"}`}>
           {item.status}
         </span>
       )}
     </td>
     <td className="py-4 px-2 text-center relative group">
       <div
-        className="relative flex justify-center items-center 2xl:w-8 2xl:h-8 xl:w-7 xl:h-7 md:w-6 md:h-6 rounded-full hover:bg-custom-gray1 group-hover:visible invisible"
+        className="relative flex justify-center items-center 2xl:w-8 2xl:h-8 xl:w-7 xl:h-7 md:w-6 md:h-6 rounded-full hover:bg-custom-gray1 group-hover:visible invisible custom-hover"
         onClick={() => handleImageClick(index)} // Use index for click handling
       >
         <img
@@ -103,12 +103,14 @@ const TableRow = ({ item, index, tab, clickedIndex, handleImageClick }) => (
           alt="schedule"
           className="md:w-[2.5vh] md:h-[2.5vh] xl:w-[2.7vh] xl:h-[2.7vh]"
         />
-      </div>
-      {clickedIndex === index && (
-        <div className="z-10 absolute py-1 xl:py-2 2xl:w-[8vw] right-1 text-center w-[65px] xl:right-5 lg:w-[100px] xl:w-[100px] xl:text-[12px] bg-white text-black border border-gray-300 shadow-md shadow-custom rounded-sm">
+
+<div className="z-10 absolute shadow-light py-[1px] 2xl:w-[6vw] md:w-[75px] md:right-1 md:bottom-8 lg:right-[-25px] xl:left-[-35px] text-center 2xl:bottom-10 border-none lg:w-[80px] xl:w-[100px] xl:text-[12px] bg-white text-black border border-gray-300  rounded-sm opacity-0 custom-hover:opacity-100 transition-opacity duration-300">
           View Schedule
         </div>
-      )}
+      </div>
+     
+        
+     
     </td>
   </tr>
 );
