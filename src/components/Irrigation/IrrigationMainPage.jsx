@@ -326,6 +326,7 @@ console.log(updatedAssets , "Updates"); // For debugging or further processing
                     selectedOption={selectedState}
                     setSelectedOption={handleStateChange}
                     placeholder=" State"
+                  
                   />
 
                   {/* Custom Dropdown for Districts */}

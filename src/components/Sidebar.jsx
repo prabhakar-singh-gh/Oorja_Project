@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import OorjaNameSvg from '../assets/oorja.svg';
 import homesvg from '../assets/homepage.svg';
 import irrigation from '../assets/irrigation.svg';
@@ -19,6 +19,12 @@ import irrigationActive from '../assets/irrigationActive.svg'
 const Sidebar = () => {
 
   const [activeLink, setActiveLink] = useState(localStorage.getItem('activeLink') || 'home');
+const navigate = useNavigate()
+
+  const handleLogOut = ()=>{
+    localStorage.removeItem('isAuthenticated');
+    navigate('/login');
+   }
 
   // Update localStorage whenever the activeLink changes
   useEffect(() => {
@@ -94,7 +100,7 @@ const Sidebar = () => {
        {/* Conditional Logout Button */}
        {activeLink !== 'home' && (
         <div className=" flex justify-center w-full">
-          <button className="w-[15vw] ">
+          <button className="w-[15vw] "onClick={handleLogOut}>
             <img src={logoutbtn1} alt="Logout" />
           </button>
         </div>

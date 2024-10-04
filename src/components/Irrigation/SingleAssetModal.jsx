@@ -7,13 +7,29 @@ const SingleAssetModal = ({  setModalOpen ,setLandOwnerModal,setTempAsset ,  onC
 console.log(assetDetails,"Asset Passed");
 const [isValid, setIsValid] = useState(false);
 
+
+
+
+
+const [isSoilTestEnabled, setIsSoilTestEnabled] = useState(true);
+const [isSeedOrderEnabled, setIsSeedOrderEnabled] = useState(false);
+
+// New function to toggle the switches
+const toggleSwitch = (switchType) => {
+  if (switchType === 'soilTest') {
+    setIsSoilTestEnabled((prevState) => !prevState); // Toggle soilTest state
+  } else if (switchType === 'seedOrder') {
+    setIsSeedOrderEnabled((prevState) => !prevState); // Toggle seedOrder state
+  }
+};
+
 const formatCoordinate = (coordinate) => {
     // Check if the coordinate is a number and return formatted string
     return typeof coordinate === 'number' ? coordinate.toFixed(3) : 'N/A';
 };
 // Handle input change
 const [savedOperators, setSavedOperators] = useState([]);
-console.log(savedOperators , "SAVED Operator")
+
 // Modified handleInputChange logic for name and phone number auto-fill
 const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -121,7 +137,7 @@ useEffect(() => {
         <h2 className="text-2xl font-semibold lg:text-[17px] xl:text-[18px] mb-2 font-inter">Asset Details</h2>
         
         {/* Asset ID and Rate in one row */}
-        <div className="flex  flex-col mb-4">
+        <div className="flex  flex-col mb-6">
           <div className="w-3/5 mb-2">
             <label className='md:text-[11px] xl:text-[12px] font-inter '>Asset ID</label>
             <input
@@ -148,7 +164,7 @@ useEffect(() => {
         </div>
         
         {/* Location row */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-2">
           <span className=" md:text-[11px] xl:text-[12px] font-inter">Location</span>
           <div className='flex gap-3 justify-center items-center'>    
             <span className="text-gray-600 md:text-[11px] xl:text-[12px] flex justify-center items-center gap-1">
@@ -235,39 +251,43 @@ useEffect(() => {
 
         {/* Soil Test and Seed Order switches in one line */}
       
-       <div>  <label className='md:text-[11px] xl:text-[12px] mb-2 font-inter '>Testing</label></div>
+       <div>  <label className='md:text-[11px] xl:text-[12px] font-inter '>Testing</label></div>
        <div className="flex items-center mb-4 mt-3">
-          <div className="flex items-center">
-            <span className='md:text-[11px] xl:text-[12px] md:w-16 font-inter '>Soil Test</span>
-            <Switch
-              checked={assetDetails?.soilTest}
-              onChange={(value) => handleSwitchChange('soilTest', value)}
-              className={`${
-                assetDetails?.soilTest ? 'bg-custom-green' : 'bg-gray-200'
-              } relative inline-flex items-center  rounded-full  lg:w-8  lg:h-5 md:w-[29px] md:h-4  ml-2 transition-colors`}>
-              <span
-                className={`${
-                  assetDetails?.soilTest ? 'translate-x-[15px]' : 'translate-x-1'
-                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
-              />
-            </Switch>
-          </div>
-          <div className="flex items-center px-28">
-            <span className='md:text-[11px] xl:text-[12px] md:w-16 xl:w-20  font-inter '>Seed Order</span>
-            <Switch
-              checked={assetDetails?.seedOrder}
-              onChange={(value) => handleSwitchChange('seedOrder', value)}
-              className={`${
-                assetDetails?.seedOrder ? 'bg-custom-green'  : 'bg-gray-200'
-              } relative inline-flex items-center  rounded-full lg:w-8  lg:h-5 md:w-7 md:h-4 ml-2 transition-colors`}>
-              <span
-                className={`${
-                  assetDetails?.seedOrder ? 'translate-x-3' : 'translate-x-1'
-                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
-              />
-            </Switch>
-          </div>
-        </div>
+      {/* Soil Test Switch */}
+      <div className="flex items-center">
+        <span className="md:text-[11px] xl:text-[12px] md:w-16 font-inter">Soil Test</span>
+        <Switch
+          checked={isSoilTestEnabled}
+          onChange={() => toggleSwitch('soilTest')} // Use the new toggleSwitch function
+          className={`${
+            isSoilTestEnabled ? 'bg-[#48A244]' : 'bg-gray-200'
+          } relative inline-flex items-center rounded-full lg:w-[40px] lg:h-[24px] md:w-[40px] md:h-[24px] ml-2 transition-colors`}>
+          <span
+            className={`${
+              isSoilTestEnabled ? 'translate-x-[17px]' : 'translate-x-[3px]'
+            } inline-block w-[20px] h-[19px] transform bg-white rounded-full transition-transform `}
+          />
+        </Switch>
+      </div>
+
+      {/* Seed Order Switch */}
+      <div className="flex items-center px-28">
+        <span className="md:text-[11px] xl:text-[12px] md:w-16 xl:w-20 font-inter">Seed Order</span>
+        <Switch
+          checked={isSeedOrderEnabled}
+          onChange={() => toggleSwitch('seedOrder')} // Use the new toggleSwitch function
+          className={`${
+            isSeedOrderEnabled ? 'bg-[#48A244]' : 'bg-gray-200'
+          } relative inline-flex items-center rounded-full lg:w-[40px] lg:h-[24px] md:w-[40px] md:h-[24px] ml-2 transition-colors `}>
+          <span
+            className={`${
+              isSeedOrderEnabled ? 'translate-x-[17px]' : 'translate-x-[3px]'
+            } inline-block w-[20px] h-[19px] transform bg-white rounded-full transition-transform `}
+          />
+        </Switch>
+      </div>
+    </div>
+
 
         {/* Name and Phone Number in one row */}
         <div className="flex justify-between mb-4">

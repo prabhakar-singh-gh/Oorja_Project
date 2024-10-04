@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import schedule from '../../assets/schedule.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Table = ({ data, tab, selectedState, selectedDistrict }) => {
   const [clickedIndex, setClickedIndex] = useState(null);
-
+  const navigate = useNavigate();
   const handleImageClick = (index) => {
     setClickedIndex(index === clickedIndex ? null : index); // Toggle the clicked index
   };
@@ -74,8 +75,19 @@ const Table = ({ data, tab, selectedState, selectedDistrict }) => {
   );
 };
 
-const TableRow = ({ item, index, tab, clickedIndex, handleImageClick }) => (
-  <tr className="border-t border-b md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] hover:border-b-2 hover:border-b-black group">
+const TableRow = ({ item, index, tab, clickedIndex, handleImageClick }) => {
+
+  const navigate = useNavigate();
+  const handleRowClick = () => {
+    navigate('/assetDetails', { state: { item } });
+    console.log("Row clicked: ", JSON.stringify(item, null, 2))
+    // You can add more logic here if you want to navigate or do something when the row is clicked
+  };
+
+  return (
+  <tr 
+  onClick={handleRowClick}
+  className="border-t border-b md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] hover:border-b-2 hover:border-b-black group">
     <td className="py-4 lg:py-3 px-8">{item.id}</td>
     <td className="py-1 px-2">{item.location.district}, {item.location.state}</td>
     <td className="py-1 px-2">
@@ -112,7 +124,7 @@ const TableRow = ({ item, index, tab, clickedIndex, handleImageClick }) => (
         
      
     </td>
-  </tr>
-);
+  </tr>)
+};
 
 export default Table;

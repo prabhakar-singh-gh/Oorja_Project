@@ -204,7 +204,7 @@ console.log(center , "LAt lOg" , Radius);
 
         {/* Radius Input and Confirm Button */}
         <div className="absolute bottom-12 right-16 flex items-center gap-3 bg-transparent rounded-lg z-50">
-          <div className="flex items-center mr-4 px-4 py-1 rounded-lg bg-white">
+          <div className="flex items-center mr-4 px-4 py-1 rounded-lg bg-white shadow-[0_0_10px_5px_rgba(0,0,0,0.1)]">
             <span className="mr-2 2xl:text-[13px] md:text-[11px] font-semibold font-inter">Radius</span>
             <input
               type="number"
@@ -212,13 +212,13 @@ console.log(center , "LAt lOg" , Radius);
               max="1000"
               value={Radius || ''}
               onChange={handleRadiusChange}
-              className="border p-1 w-20 text-center 2xl:text-[16px] md:text-[15px] rounded-lg"
+              className="border p-1 w-20 text-center 2xl:text-[16px] md:text-[15px] rounded-lg shadow-lg 2xl:pl-4 xl:pl-1"
             />
             <span className='2xl:text-[13px] md:text-[11px] ml-2 font-semibold font-inter'>Meters</span>
           </div>
 
           {/* Confirm Button */}
-          <button className="bg-custom-black text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-6 py-2 rounded" onClick={ handleConfirm}>
+          <button className="bg-custom-black shadow-[0_0_10px_5px_rgba(0,0,0,0.1)]  text-white md:text-[10px] xl:text-[14px] 2xl:text-[13px] px-6 py-2 rounded" onClick={ handleConfirm}>
             Confirm & Proceed
           </button>
         </div>

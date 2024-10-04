@@ -63,40 +63,52 @@ const handleModal = ()=>{
     setLandOwnerModal(false)
    window.history.back()
 }
-const handleSaveModal = ()=>{
-    const { name, phoneNumber } = owner; // Destructure to get name and phoneNumber
+const handleSaveModal = () => {
+  console.log("Clicked");
+  
+  const { name, phoneNumber } = owner;
 
-   
-    if (!name || !phoneNumber) {
-       
-        alert("Please enter both the landowner name and phone number.");
-        return; // Stop further execution if validation fails
-    }
-    const currentDate = new Date();
+  // Ensure owner details are provided
+  if (!name || !phoneNumber) {
+      alert("Please enter both the landowner name and phone number.");
+      return; // Stop execution if validation fails
+  }
 
-    // Format the date and time as 'YYYY-MM-DD HH:mm'
-    const formattedDateTime = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
+  const currentDate = new Date();
+  const formattedDateTime = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
 
-    // Update the formData state with the current date and time in the required format
-    const updatedOwner = {
-        ...owner,
-        startDateTime: formattedDateTime,  // Store formatted date and time
-    };
+  const updatedOwner = {
+      ...owner,
+      startDateTime: formattedDateTime, // Add timestamp
+  };
 
-    console.log('Updated Owner:', updatedOwner);
+  // Create an updated list of land owners (owner + saved members)
+  const newLandOwner = {
+      ...updatedOwner,
+      members: savedEntries.length > 0 ? savedEntries : [],
+  };
+
+  console.log('Updated Land Owner:', newLandOwner);
+
   // Update the landOwners state
   setLandOwners((prev) => {
-    const newOwners = [...prev, updatedOwner];
-    console.log('New Land Owners:', newOwners); // Log the new owners array
-    return newOwners;
-});
-updateAssetDetails()
-// Delay navigation until after state update
-setLandOwnerModal(false);
-setTimeout(() => {
-    navigate('/irrigation');
-}, 0);
-}
+      const newOwners = [...prev, newLandOwner];
+      console.log('New Land Owners:', newOwners); // Log the new owners array
+      return newOwners;
+  });
+
+  // Call the function to update asset details
+  updateAssetDetails();
+
+  // Close the modal and navigate back
+  setLandOwnerModal(false);
+  setModalOpen(false); // Close modal
+  setTempAsset({}); // Reset temporary asset data
+
+  // Navigate to the irrigation page
+  navigate('/irrigation');
+};
+
 
 
 useEffect(() => {
@@ -233,7 +245,7 @@ useEffect(() => {
                 <input
                   type="text"
                   value={entry.name}
-                  className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-1"
+                  className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-3"
                   disabled
                 />
               </div>
@@ -243,7 +255,7 @@ useEffect(() => {
                 <input
                   type="tel"
                   value={entry.phoneNumber}
-                  className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-1"
+                  className="border p-1 w-full md:text-[11px] xl:text-[12px] py-3 outline-none rounded-sm px-3"
                   disabled
                 />
                 {/* Delete button below the tick */}
@@ -262,10 +274,10 @@ useEffect(() => {
       </div>
     </div>
 
-    <div className=' flex justify-between '>
+    <div className=' flex justify-between items-center'>
         <p className={`mt-4 md:text-[11px] xl:text-[12px] text-custom-green ${savedEntries.length > 0 ? "visible" : "invisible"} `}>Added Member Successfully</p>
         <button
-          disabled={savedEntries.length <= 0} 
+       disabled={!owner.name || !owner.phoneNumber} 
         onClick={handleSaveModal}  className={`bg-btn-color  md:px-5 xl:px-6 py-2 rounded md:text-[11px] xl:text-[12px] mt-4 font-inter ${isOwnerValid ? 'bg-custom-black text-white' : "text-text-color2 "}  `}>
         Save
         </button>

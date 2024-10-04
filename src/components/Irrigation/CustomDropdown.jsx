@@ -27,7 +27,7 @@ const CustomDropdown = ({ options, selectedOption, setSelectedOption, placeholde
         </svg>
       </div>
       {isOpen && (
-        <div className="absolute right-1 z-10 bg-white border rounded shadow-lg mt-1  max-h-[200px] overflow-y-auto ">
+        <div className="absolute  z-10 bg-white border rounded shadow-lg mt-1 w-full  max-h-[200px] overflow-y-auto ">
           {options.map((option, index) => (
             <div
               key={index}

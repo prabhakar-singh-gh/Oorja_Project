@@ -59,8 +59,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 
               0 2px 10px rgba(0, 0, 0, 0.1);
 }
-.custom-border{
-  background-image:   url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23333' stroke-width='3' stroke-dasharray='12%2c 16' stroke-dashoffset='61' stroke-linecap='round'/%3e%3c/svg%3e");
+.custom-border {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%23666666' stroke-width='2.5' stroke-dasharray='10 8' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+  border-radius: 10px;
 }
 
 .custom-hover:hover .absolute {
@@ -77,4 +78,25 @@
 .shadow-light {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), /* Subtle shadow */
               0 2px 10px rgba(0, 0, 0, 0.1); /* Wider shadow */
+}
+.login {
+  background-image: url('./assets/loginSvg.svg');
+  background-repeat: no-repeat; /* Prevents the background from repeating */
+  background-size: cover; /* Scales the image to cover the entire div */
+ 
+
+}
+/* Hide arrows in number input for Chrome, Safari, Edge, and Opera */
+.custom-number-input::-webkit-inner-spin-button,
+.custom-number-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in number input for Firefox */
+.custom-number-input {
+  -moz-appearance: textfield;
+}
+.shadow-extended-bottom {
+  box-shadow: 0 25px 10px -10px rgba(0, 0, 0, 0.1);
 }

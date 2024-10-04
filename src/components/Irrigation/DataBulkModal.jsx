@@ -106,12 +106,12 @@ const DataBulkModal = ({ data, setShowDataModal }) => {
                 <th className="p-2  w-[2%]  border-gray-300">
                    
                 </th>
-                <th className="px-6 py-3 font-inter font-normal md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] border2xl:text-[0.9vw] 2xl:w-[] border text-left">Asset ID</th>
-                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] xl:w-[8%] border text-left font-inter font-normal ">Rate in ₹/m³</th>
+                <th className="px-6 py-3 font-inter font-normal md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] 2xl:w-[]  text-left">Asset ID</th>
+                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] xl:w-[8%]  text-left font-inter font-normal ">Rate in ₹/m³</th>
                 <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] text-center font-inter font-normal">Location</th>
                 <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] xl:w-[9%] 2xl:w-[10%] font-inter font-normal">Radius <span className='lg:text-[10px] md:text-[8px] text-text-color'>in meters</span></th>
                 <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] font-inter font-normal">Soil Testing</th>
-                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] border 2xl:w-[9%] font-inter font-normal">Seed Service</th>
+                <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]  2xl:w-[9%] font-inter font-normal">Seed Service</th>
                 <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw]  font-inter font-normal">Operator</th>
                 <th className="p-2 md:text-[1.2vw] lg:text-[1vw] xl:text-[1vw] 2xl:text-[0.9vw] font-inter font-normal">Landowner</th>
               </tr>

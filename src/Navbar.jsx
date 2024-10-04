@@ -1,8 +1,16 @@
 import React from 'react';
 import alertsvg from './assets/alertsvg.svg'
 import logOutBtn from './assets/logOutBtn.svg'
-
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  const navigate = useNavigate();
+
+   const handleLogOut = ()=>{
+    localStorage.removeItem('isAuthenticated');
+    navigate('/login');
+   }
+
+
   return (
     <nav className="bg-white p-3 flex justify-between items-center">
     
@@ -21,7 +29,7 @@ const Navbar = () => {
         />
          
         <img src={logOutBtn} alt='logOut' className='w-[7vw]'
-          onClick={() => console.log('Sign out button clicked')} 
+          onClick={ handleLogOut} 
           
         />
          
